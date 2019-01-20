@@ -1,9 +1,14 @@
 package test.endtoend.auctionsniper;
 
+import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
+import auctionsniper.Main;
+
 public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
+    private String STATUS_JOINING;
+    private String STATUS_LOST;
 
     public void startBiddingIn(final FakeAuctionServer auction) {
         Thread thread = new Thread("Test Application") {

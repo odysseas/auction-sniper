@@ -1,5 +1,6 @@
 package test.endtoend.auctionsniper;
 
+import auctionsniper.Main;
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.driver.JFrameDriver;
 import com.objogate.wl.swing.driver.JLabelDriver;
