@@ -7,8 +7,8 @@ public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
-    private String STATUS_JOINING;
-    private String STATUS_LOST;
+    private String STATUS_JOINING = "Joining";
+    private String STATUS_LOST = "Lost";
 
     public void startBiddingIn(final FakeAuctionServer auction) {
         Thread thread = new Thread("Test Application") {
