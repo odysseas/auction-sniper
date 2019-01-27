@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# bin directory
+/bin/
+
 # Log file
 *.log
 
@@ -23,7 +26,6 @@ hs_err_pid*
 
 # IntelliJ IDEA
 .idea/
-*.iml
 
 # maven
 target/
