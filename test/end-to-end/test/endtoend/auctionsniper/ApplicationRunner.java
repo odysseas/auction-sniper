@@ -1,7 +1,7 @@
 package test.endtoend.auctionsniper;
 
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
-import auctionsniper.Main;
+import auctionsniper.ui.Main;
 
 public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
