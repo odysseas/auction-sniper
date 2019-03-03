@@ -11,7 +11,8 @@ import static auctionsniper.ui.Main.MAIN_WINDOW_NAME;
 
 public class MainWindow extends JFrame {
     public static final String SNIPER_STATUS_NAME = "sniper status";
-    private static final String STATUS_JOINING = "Joining";
+    public static final String STATUS_JOINING = "Joining";
+    public static final String STATUS_LOST = "Lost";
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
     public MainWindow() {
@@ -21,6 +22,10 @@ public class MainWindow extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void showStatus(String status) {
+        sniperStatus.setText(status);
     }
 
     private static JLabel createLabel(String initialText) {
