@@ -6,6 +6,7 @@ import auctionsniper.ui.Main;
 public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
+    public static final String SNIPER_XMPP_ID = "sniper@localhost/Auction";
     private AuctionSniperDriver driver;
     private String STATUS_JOINING = "Joining";
     private String STATUS_LOST = "Lost";
@@ -34,5 +35,9 @@ public class ApplicationRunner {
         if (driver != null) {
             driver.dispose();
         }
+    }
+
+    public void hasShownSniperIsBidding() {
+        driver.showsSniperStatus(STATUS_JOINING);
     }
 }

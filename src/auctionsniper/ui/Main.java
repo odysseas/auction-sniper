@@ -9,6 +9,8 @@ import org.jivesoftware.smack.packet.Message;
 import javax.swing.SwingUtilities;
 
 public class Main {
+    public static final String JOIN_COMMAND_FORMAT = "";
+    public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
     @SuppressWarnings("unused") private Chat notToBeGCd;
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -74,6 +76,6 @@ public class Main {
                     }
                 });
         this.notToBeGCd = chat;
-        chat.sendMessage(new Message());
+        chat.sendMessage(new Message(JOIN_COMMAND_FORMAT));
     }
 }
