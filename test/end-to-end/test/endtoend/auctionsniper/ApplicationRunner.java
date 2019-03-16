@@ -6,9 +6,11 @@ import auctionsniper.ui.Main;
 public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
+    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@localhost/Auction";
     private AuctionSniperDriver driver;
     private String STATUS_JOINING = "Joining";
     private String STATUS_LOST = "Lost";
+    private String STATUS_BIDDING = "Bidding";
 
     public void startBiddingIn(final FakeAuctionServer auction) {
         Thread thread = new Thread("Test Application") {
@@ -24,6 +26,10 @@ public class ApplicationRunner {
         thread.start();
         driver = new AuctionSniperDriver(1000);
         driver.showsSniperStatus(STATUS_JOINING);
+    }
+
+    public void hasShownSniperIsBidding() {
+        driver.showsSniperStatus(STATUS_BIDDING);
     }
 
     public void showsSniperHasLostAuction() {

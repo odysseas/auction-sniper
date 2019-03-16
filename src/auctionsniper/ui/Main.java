@@ -13,6 +13,8 @@ public class Main {
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static String SNIPER_STATUS_NAME = "sniper status";
+    public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+    public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
@@ -74,6 +76,6 @@ public class Main {
                     }
                 });
         this.notToBeGCd = chat;
-        chat.sendMessage(new Message());
+        chat.sendMessage(JOIN_COMMAND_FORMAT);
     }
 }
