@@ -1,9 +1,6 @@
 package auctionsniper.ui;
 
-import auctionsniper.AuctionEventListener;
-import auctionsniper.AuctionMessageTranslator;
-import auctionsniper.AuctionSniper;
-import auctionsniper.SniperListener;
+import auctionsniper.*;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -72,7 +69,12 @@ public class Main implements SniperListener {
         disconnectWhenUICloses(connection);
         Chat chat = connection.getChatManager().createChat(
                 auctionId(itemId, connection),
-                new AuctionMessageTranslator(new AuctionSniper(this)));
+                new AuctionMessageTranslator(new AuctionSniper(new Auction() {
+                    @Override
+                    public void bid(int bid) {
+
+                    }
+                }, this)));
         chat.sendMessage(JOIN_COMMAND_FORMAT);
         this.notToBeGCd = chat;
     }
@@ -85,6 +87,8 @@ public class Main implements SniperListener {
             }
         });
     }
+
+    public void sniperBidding() {};
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
         ui.addWindowListener(new WindowAdapter() {
