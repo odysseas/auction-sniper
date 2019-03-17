@@ -3,7 +3,6 @@ package test.auctionsniper;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionMessageTranslator;
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
 import org.jmock.Expectations;
 import org.jmock.Mockery;

@@ -1,17 +1,18 @@
 package auctionsniper.ui;
 
-import auctionsniper.*;
+import auctionsniper.Auction;
+import auctionsniper.AuctionMessageTranslator;
+import auctionsniper.AuctionSniper;
+import auctionsniper.SniperListener;
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
 
 import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main implements SniperListener {
+public class Main {
     @SuppressWarnings("unused") private Chat notToBeGCd;
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -73,7 +74,9 @@ public class Main implements SniperListener {
 
         Auction auction = new XMPPAuction(chat);
 
-        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+        chat.addMessageListener(
+                new AuctionMessageTranslator(
+                        new AuctionSniper(auction, new SniperStateDisplayer())));
         auction.join();
     }
 
@@ -101,23 +104,6 @@ public class Main implements SniperListener {
         }
     }
 
-    public void sniperLost() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_LOST);
-            }
-        });
-    }
-
-    public void sniperBidding() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_BIDDING);
-            }
-        });
-    };
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
         ui.addWindowListener(new WindowAdapter() {
@@ -126,5 +112,31 @@ public class Main implements SniperListener {
                 connection.disconnect();
             }
         });
+    }
+
+    public class SniperStateDisplayer implements SniperListener {
+        @Override
+        public void sniperBidding() {
+            showStatus(MainWindow.STATUS_BIDDING);
+        }
+
+        @Override
+        public void sniperLost() {
+            showStatus(MainWindow.STATUS_LOST);
+        }
+
+        @Override
+        public void sniperWinning() {
+            showStatus(MainWindow.STATUS_WINNING);
+        }
+
+        private void showStatus(final String status) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    ui.showStatus(status);
+                }
+            });
+        }
     }
 }
