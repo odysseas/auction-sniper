@@ -2,6 +2,8 @@ package auctionsniper.ui;
 
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionMessageTranslator;
+import auctionsniper.AuctionSniper;
+import auctionsniper.SniperListener;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -12,7 +14,7 @@ import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main implements AuctionEventListener {
+public class Main implements SniperListener {
     @SuppressWarnings("unused") private Chat notToBeGCd;
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -70,23 +72,18 @@ public class Main implements AuctionEventListener {
         disconnectWhenUICloses(connection);
         Chat chat = connection.getChatManager().createChat(
                 auctionId(itemId, connection),
-                new AuctionMessageTranslator(this));
+                new AuctionMessageTranslator(new AuctionSniper(this)));
         chat.sendMessage(JOIN_COMMAND_FORMAT);
         this.notToBeGCd = chat;
     }
 
-    public void auctionClosed() {
+    public void sniperLost() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 ui.showStatus(MainWindow.STATUS_LOST);
             }
         });
-    }
-
-    @Override
-    public void currentPrice(int price, int increment) {
-
     }
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
