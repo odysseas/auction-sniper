@@ -129,6 +129,11 @@ public class Main {
         @Override
         public void sniperWinning() { showStatus(MainWindow.STATUS_WINNING);}
 
+        @Override
+        public void sniperWon() {
+
+        }
+
         private void showStatus(final String status) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
