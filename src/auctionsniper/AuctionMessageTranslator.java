@@ -3,6 +3,9 @@ package auctionsniper;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
+import static auctionsniper.AuctionEventListener.PriceSource;
+import static auctionsniper.AuctionEventListener.PriceSource.FromOtherBidder;
+import static auctionsniper.AuctionEventListener.PriceSource.FromSniper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +28,7 @@ public class AuctionMessageTranslator implements MessageListener {
             listener.currentPrice(
                     event.currentPrice(),
                     event.increment(),
-                    AuctionEventListener.PriceSource.FromOtherBidder);
+                    event.isFrom(sniperId));
         }
     }
 
@@ -34,6 +37,9 @@ public class AuctionMessageTranslator implements MessageListener {
         public String type() { return get("Event"); }
         public int currentPrice() { return getInt("CurrentPrice"); }
         public int increment() { return getInt("Increment"); }
+        public PriceSource isFrom(String sniperId) {
+            return sniperId.equals(bidder()) ? FromSniper : FromOtherBidder;
+        }
 
         private int getInt(String fieldName) {
             return Integer.parseInt(get(fieldName));
@@ -45,6 +51,8 @@ public class AuctionMessageTranslator implements MessageListener {
             String[] pair = field.split(":");
             fields.put(pair[0].trim(), pair[1].trim());
         }
+
+        private String bidder() { return get("Bidder"); }
 
         static AuctionEvent from(String messageBody) {
             AuctionEvent event = new AuctionEvent();
