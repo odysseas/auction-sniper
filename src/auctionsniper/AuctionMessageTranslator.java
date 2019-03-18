@@ -9,8 +9,10 @@ import java.util.Map;
 
 public class AuctionMessageTranslator implements MessageListener {
     private AuctionEventListener listener;
+    private String sniperId;
 
-    public AuctionMessageTranslator(AuctionEventListener listener) {
+    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+        this.sniperId = sniperId;
         this.listener = listener;
     }
 
@@ -20,7 +22,10 @@ public class AuctionMessageTranslator implements MessageListener {
         if("CLOSE".equals(eventType)) {
             listener.auctionClosed();
         } if ("PRICE".equals(eventType)) {
-            listener.currentPrice(event.currentPrice(), event.increment());
+            listener.currentPrice(
+                    event.currentPrice(),
+                    event.increment(),
+                    AuctionEventListener.PriceSource.FromOtherBidder);
         }
     }
 
