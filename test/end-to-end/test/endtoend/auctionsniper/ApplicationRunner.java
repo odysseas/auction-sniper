@@ -1,5 +1,10 @@
 package test.endtoend.auctionsniper;
 
+import static auctionsniper.ui.MainWindow.STATUS_BIDDING;
+import static auctionsniper.ui.MainWindow.STATUS_JOINING;
+import static auctionsniper.ui.MainWindow.STATUS_LOST;
+import static auctionsniper.ui.MainWindow.STATUS_WINNING;
+import static auctionsniper.ui.MainWindow.STATUS_WON;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 import auctionsniper.ui.Main;
 
@@ -8,9 +13,6 @@ public class ApplicationRunner {
     public static final String SNIPER_PASSWORD = "sniper";
     public static final String SNIPER_XMPP_ID = SNIPER_ID + "@localhost/Auction";
     private AuctionSniperDriver driver;
-    private String STATUS_JOINING = "Joining";
-    private String STATUS_LOST = "Lost";
-    private String STATUS_BIDDING = "Bidding";
 
     public void startBiddingIn(final FakeAuctionServer auction) {
         Thread thread = new Thread("Test Application") {
@@ -32,8 +34,15 @@ public class ApplicationRunner {
         driver.showsSniperStatus(STATUS_BIDDING);
     }
 
+    public void hasShownSniperIsWinning() {
+        driver.showsSniperStatus(STATUS_WINNING);
+    }
+
     public void showsSniperHasLostAuction() {
         driver.showsSniperStatus(STATUS_LOST);
+    }
+    public void showsSniperHasWonAuction() {
+        driver.showsSniperStatus(STATUS_WON);
     }
 
     public void stop() {
