@@ -15,8 +15,6 @@ import java.awt.event.WindowEvent;
 public class Main {
     @SuppressWarnings("unused") private Chat notToBeGCd;
 
-    public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    public static String SNIPER_STATUS_NAME = "sniper status";
     public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
@@ -136,7 +134,7 @@ public class Main {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.showStatus(status);
+                    ui.showStatusText(status);
                 }
             });
         }
