@@ -30,7 +30,7 @@ public class ApplicationRunner {
         driver = new AuctionSniperDriver(1000);
         driver.hasTitle(MainWindow.APPLICATION_TITLE);
         driver.hasColumnTitles();
-        driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
+        driver.showsSniperStatus("", 0, 0, textFor(SniperState.JOINING));
     }
 
     public void hasShownSniperIsBidding() {
