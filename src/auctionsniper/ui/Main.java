@@ -28,17 +28,14 @@ public class Main {
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
+    private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
 
     public Main() throws Exception {
-        startUserInterface();
-    }
-
-    private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                ui = new MainWindow();
+                ui = new MainWindow(snipers);
             }
         });
     }
@@ -76,7 +73,7 @@ public class Main {
         chat.addMessageListener(
                 new AuctionMessageTranslator(
                         connection.getUser(),
-                        new AuctionSniper(auction, new SniperStateDisplayer(), itemId)));
+                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
         auction.join();
     }
 
@@ -114,13 +111,18 @@ public class Main {
         });
     }
 
-    public class SniperStateDisplayer implements SniperListener {
+    public class SwingThreadSniperListener implements SniperListener {
+        private final SniperListener delegate;
+        public SwingThreadSniperListener(SniperListener delegate) {
+            this.delegate = delegate;
+        }
+
         @Override
         public void sniperStateChanged(final SniperSnapshot snapshot) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.sniperStateChanged(snapshot);
+                    delegate.sniperStateChanged(snapshot);
                 }
             });
         }
