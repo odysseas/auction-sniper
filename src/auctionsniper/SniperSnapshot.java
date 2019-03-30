@@ -29,6 +29,10 @@ public class SniperSnapshot {
         return new SniperSnapshot(itemId, 0, 0, SniperState.JOINING);
     }
 
+    public SniperSnapshot closed() {
+        return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
+    }
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
@@ -43,4 +47,6 @@ public class SniperSnapshot {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
+
 }

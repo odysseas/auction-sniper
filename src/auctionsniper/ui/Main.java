@@ -124,22 +124,5 @@ public class Main {
                 }
             });
         }
-
-        @Override
-        public void sniperLost() {
-            showStatus(MainWindow.STATUS_LOST);
-        }
-
-        @Override
-        public void sniperWon() { showStatus(MainWindow.STATUS_WON); }
-
-        private void showStatus(final String status) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    ui.showStatusText(status);
-                }
-            });
-        }
     }
 }
