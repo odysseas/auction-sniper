@@ -3,13 +3,13 @@ package auctionsniper;
 public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
     private final SniperListener sniperListener;
-    private final String itemId;
     private boolean isWinning = false;
+    private SniperSnapshot snapshot;
 
     public AuctionSniper(Auction auction, SniperListener sniperListener, String itemId) {
         this.auction = auction;
         this.sniperListener = sniperListener;
-        this.itemId = itemId;
+        this.snapshot = SniperSnapshot.joining(itemId);
     }
 
     public void auctionClosed() {
@@ -23,11 +23,12 @@ public class AuctionSniper implements AuctionEventListener {
     public void currentPrice(int price, int increment, PriceSource priceSource) {
         isWinning = priceSource == PriceSource.FromSniper;
         if (isWinning) {
-            sniperListener.sniperWinning();
+            snapshot = snapshot.winning(price);
         } else {
-            int bid = price + increment;
+            final int bid = price + increment;
             auction.bid(bid);
-            sniperListener.sniperBidding(new SniperState(itemId, price, bid));
+            snapshot = snapshot.bidding(price, bid);
         }
+        sniperListener.sniperStateChanged(snapshot);
     }
 }

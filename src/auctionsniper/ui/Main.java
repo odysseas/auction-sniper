@@ -4,7 +4,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionMessageTranslator;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -116,11 +116,11 @@ public class Main {
 
     public class SniperStateDisplayer implements SniperListener {
         @Override
-        public void sniperBidding(final SniperState state) {
+        public void sniperStateChanged(final SniperSnapshot snapshot) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
+                    ui.sniperStateChanged(snapshot);
                 }
             });
         }
@@ -129,9 +129,6 @@ public class Main {
         public void sniperLost() {
             showStatus(MainWindow.STATUS_LOST);
         }
-
-        @Override
-        public void sniperWinning() { showStatus(MainWindow.STATUS_WINNING);}
 
         @Override
         public void sniperWon() { showStatus(MainWindow.STATUS_WON); }
