@@ -9,9 +9,10 @@ import org.jivesoftware.smack.XMPPException;
 import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class Main {
-    @SuppressWarnings("unused") private Chat notToBeGCd;
+    @SuppressWarnings("unused") private ArrayList<Chat> notToBeGCd = new ArrayList<>();
 
     public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
@@ -19,7 +20,6 @@ public class Main {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
-    private static final int ARG_ITEM_ID = 3;
 
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
@@ -52,22 +52,26 @@ public class Main {
 
     public static void main(String... args) throws Exception {
         Main main = new Main();
-        main.joinAuction(
-                connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]),
-                args[ARG_ITEM_ID]);
+        XMPPConnection connection = connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
+        main.disconnectWhenUICloses(connection);
+
+        for (int i = 3; i < args.length; i++ ){
+            main.joinAuction(connection, args[i]);
+        }
     }
 
     private void joinAuction(XMPPConnection connection, String itemId)
         throws XMPPException
     {
-        disconnectWhenUICloses(connection);
         final Chat chat = connection.getChatManager().createChat(
                 auctionId(itemId, connection), null);
-        this.notToBeGCd = chat;
+        notToBeGCd.add(chat);
 
         Auction auction = new XMPPAuction(chat);
-        AuctionSniper listener = new AuctionSniper( auction, new SwingThreadSniperListener(snipers), itemId);;
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), listener));
+        chat.addMessageListener(
+                new AuctionMessageTranslator(
+                        connection.getUser(),
+                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
         snipers.sniperStateChanged(SniperSnapshot.joining(itemId));
         auction.join();
     }
