@@ -1,10 +1,7 @@
-package auctionsniper.ui;
+package auctionsniper;
 
-import auctionsniper.Auction;
-import auctionsniper.AuctionMessageTranslator;
-import auctionsniper.AuctionSniper;
-import auctionsniper.SniperListener;
-import auctionsniper.SniperSnapshot;
+import auctionsniper.ui.MainWindow;
+import auctionsniper.ui.SnipersTableModel;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -69,11 +66,9 @@ public class Main {
         this.notToBeGCd = chat;
 
         Auction auction = new XMPPAuction(chat);
-
-        chat.addMessageListener(
-                new AuctionMessageTranslator(
-                        connection.getUser(),
-                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
+        AuctionSniper listener = new AuctionSniper( auction, new SwingThreadSniperListener(snipers), itemId);;
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), listener));
+        snipers.sniperStateChanged(SniperSnapshot.joining(itemId));
         auction.join();
     }
 

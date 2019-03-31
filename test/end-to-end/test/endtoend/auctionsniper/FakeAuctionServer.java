@@ -1,6 +1,6 @@
 package test.endtoend.auctionsniper;
 
-import auctionsniper.ui.Main;
+import auctionsniper.Main;
 import org.hamcrest.Matcher;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;

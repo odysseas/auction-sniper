@@ -42,15 +42,4 @@ public class MainWindow extends JFrame {
         return snipersTable;
 
     }
-
-    private static JLabel createLabel(String initialText) {
-        JLabel result = new JLabel(initialText);
-        result.setName(SNIPER_STATUS_NAME);
-        result.setBorder(new LineBorder(Color.black));
-        return result;
-    }
-
-    public void sniperStateChanged(SniperSnapshot snapshot) {
-        snipers.sniperStateChanged(snapshot);
-    }
 }
