@@ -49,4 +49,7 @@ public class SniperSnapshot {
     }
 
 
+    public boolean isForSameItemAs(SniperSnapshot sniperSnapshot) {
+        return itemId.equals(sniperSnapshot.itemId);
+    }
 }
