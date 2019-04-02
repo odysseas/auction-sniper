@@ -2,6 +2,7 @@ package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.xmpp.XMPPAuction;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -20,7 +21,7 @@ public class Main {
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
 
-    private static final String AUCTION_RESOURCE = "Auction";
+    public static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 

@@ -1,4 +1,4 @@
-package test.auctionsniper;
+package test.integration.auctionsniper.ui;
 
 import auctionsniper.UserRequestListener;
 import auctionsniper.ui.MainWindow;

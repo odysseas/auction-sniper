@@ -1,4 +1,4 @@
-package test.auctionsniper;
+package test.auctionsniper.ui;
 
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
