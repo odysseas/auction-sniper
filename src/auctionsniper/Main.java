@@ -2,7 +2,6 @@ package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
-import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -12,7 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class Main {
-    @SuppressWarnings("unused") private ArrayList<Chat> notToBeGCd = new ArrayList<>();
+    @SuppressWarnings("unused") private ArrayList<Auction> notToBeGCd = new ArrayList<>();
 
     public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
@@ -23,7 +22,7 @@ public class Main {
 
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
-    private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+    public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
     private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
@@ -46,10 +45,6 @@ public class Main {
         return connection;
     }
 
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-    }
-
     public static void main(String... args) throws Exception {
         Main main = new Main();
         XMPPConnection connection = connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
@@ -61,41 +56,15 @@ public class Main {
         ui.addUserRequestListener(new UserRequestListener() {
             public void joinAuction(String itemId) {
                 snipers.addSniper(SniperSnapshot.joining(itemId));
-                Chat chat = connection.getChatManager()
-                        .createChat(auctionId(itemId, connection), null);
-                notToBeGCd.add(chat);
 
-                Auction auction = new XMPPAuction(chat);
-                chat.addMessageListener(
-                        new AuctionMessageTranslator(connection.getUser(),
-                                new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
+                Auction auction = new XMPPAuction(connection, itemId);
+                notToBeGCd.add(auction);
+                auction.addAuctionEventListener(
+                        new AuctionSniper(auction,
+                        new SwingThreadSniperListener(snipers), itemId));
                 auction.join();
             }
         });
-    }
-
-    public static class XMPPAuction implements Auction {
-        private final Chat chat;
-
-        public XMPPAuction(Chat chat) {
-            this.chat = chat;
-        }
-
-        public void bid(int amount) {
-            sendMessage(String.format(BID_COMMAND_FORMAT, amount));
-        }
-
-        public void join() {
-            sendMessage(JOIN_COMMAND_FORMAT);
-        }
-
-        private void sendMessage(final String message) {
-            try {
-                chat.sendMessage(message);
-            } catch (XMPPException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
