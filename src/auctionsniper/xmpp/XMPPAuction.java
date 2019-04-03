@@ -31,7 +31,7 @@ public class XMPPAuction implements Auction {
     }
 
     private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(Main.AUCTION_ID_FORMAT, itemId, connection.getServiceName());
+        return String.format(XMPPAuctionHouse.AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
     private void sendMessage(final String message) {

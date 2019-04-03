@@ -4,6 +4,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.Main;
 import auctionsniper.xmpp.XMPPAuction;
+import auctionsniper.xmpp.XMPPAuctionHouse;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
@@ -24,7 +25,7 @@ public class XMPPAuctionTest {
 
     @Before public void openConnection() throws XMPPException {
         connection.connect();
-        connection.login(ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD, Main.AUCTION_RESOURCE);
+        connection.login(ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD, XMPPAuctionHouse.AUCTION_RESOURCE);
     }
 
     @Before public void startAuction() throws XMPPException {
