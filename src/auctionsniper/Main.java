@@ -7,11 +7,8 @@ import auctionsniper.xmpp.XMPPAuctionHouse;
 import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 public class Main {
-    @SuppressWarnings("unused") private ArrayList<Auction> notToBeGCd = new ArrayList<>();
-
     public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
@@ -42,17 +39,7 @@ public class Main {
     }
 
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new UserRequestListener() {
-            public void joinAuction(String itemId) {
-                snipers.addSniper(SniperSnapshot.joining(itemId));
-                Auction auction = auctionHouse.auctionFor(itemId);
-                notToBeGCd.add(auction);
-                auction.addAuctionEventListener(
-                        new AuctionSniper(auction,
-                        new SwingThreadSniperListener(snipers), itemId));
-                auction.join();
-            }
-        });
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
     }
 
 
@@ -65,25 +52,4 @@ public class Main {
         });
     }
 
-    public class SwingThreadSniperListener implements SniperListener {
-        private final SniperListener delegate;
-        public SwingThreadSniperListener(SniperListener delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public void sniperStateChanged(final SniperSnapshot snapshot) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    delegate.sniperStateChanged(snapshot);
-                }
-            });
-        }
-
-        @Override
-        public void addSniper(final SniperSnapshot sniperSnapshot) {
-            delegate.addSniper(sniperSnapshot);
-        }
-    }
 }
