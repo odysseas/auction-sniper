@@ -1,15 +1,16 @@
 package auctionsniper.ui;
 
 
-import auctionsniper.SniperListener;
-import auctionsniper.SniperSnapshot;
-import auctionsniper.SniperState;
+import auctionsniper.*;
+import auctionsniper.SniperPortfolio.PortfolioListener;
 import com.objogate.exception.Defect;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener {
+
+
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
     private ArrayList<SniperSnapshot> snapshots = new ArrayList<>();
     private static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Lost", "Won" };
 
@@ -52,8 +53,13 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         return STATUS_TEXT[state.ordinal()];
     }
 
-    public void addSniper(SniperSnapshot joining) {
-        snapshots.add(joining);
+    public void sniperAdded(AuctionSniper sniper) {
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
+    }
+
+    public void addSniperSnapshot(SniperSnapshot snapshot) {
+        snapshots.add(snapshot);
         int row = snapshots.size() - 1;
         fireTableRowsInserted(row, row);
     }

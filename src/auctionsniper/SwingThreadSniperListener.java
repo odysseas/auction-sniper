@@ -17,9 +17,4 @@ public class SwingThreadSniperListener implements SniperListener {
             }
         });
     }
-
-    @Override
-    public void addSniper(final SniperSnapshot sniperSnapshot) {
-        delegate.addSniper(sniperSnapshot);
-    }
 }
