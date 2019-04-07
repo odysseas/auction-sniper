@@ -9,11 +9,11 @@ public enum SniperState {
     BIDDING {
         @Override public SniperState whenAuctionClosed() { return LOST; }
     },
-    LOSING {
-        @Override public SniperState whenAuctionClosed() { return LOST; }
-    },
     WINNING {
         @Override public SniperState whenAuctionClosed() { return WON; }
+    },
+    LOSING {
+        @Override public SniperState whenAuctionClosed() { return LOST; }
     },
     LOST,
     WON;
