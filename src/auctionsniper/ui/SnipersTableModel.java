@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
     private ArrayList<SniperSnapshot> snapshots = new ArrayList<>();
-    private static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
+    private static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Lost", "Won" };
 
     @Override
     public int getRowCount() {
