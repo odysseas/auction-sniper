@@ -2,13 +2,14 @@ package auctionsniper.xmpp;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
-import auctionsniper.Main;
 import auctionsniper.util.Announcer;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 public class XMPPAuction implements Auction {
+    public static String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+    public static String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private final Chat chat;
 
@@ -18,11 +19,11 @@ public class XMPPAuction implements Auction {
     }
 
     public void bid(int amount) {
-        sendMessage(String.format(Main.BID_COMMAND_FORMAT, amount));
+        sendMessage(String.format(BID_COMMAND_FORMAT, amount));
     }
 
     public void join() {
-        sendMessage(Main.JOIN_COMMAND_FORMAT);
+        sendMessage(JOIN_COMMAND_FORMAT);
     }
 
     @Override
