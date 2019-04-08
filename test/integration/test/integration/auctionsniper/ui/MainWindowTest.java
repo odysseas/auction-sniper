@@ -3,7 +3,6 @@ package test.integration.auctionsniper.ui;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.ui.MainWindow;
-import auctionsniper.ui.SnipersTableModel;
 import com.objogate.wl.swing.probe.ValueMatcherProbe;
 import org.junit.Test;
 import test.endtoend.auctionsniper.AuctionSniperDriver;
@@ -26,7 +25,7 @@ public class MainWindowTest {
                     }
                 });
 
-        driver.startBiddingFor("an item-id");
+        driver.startBiddingFor("an item-id", Integer.MAX_VALUE);
         driver.check(buttonProbe);
     }
 }
