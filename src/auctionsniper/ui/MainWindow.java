@@ -3,12 +3,14 @@ package auctionsniper.ui;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.util.Announcer;
+import com.objogate.wl.swing.driver.JTextFieldDriver;
 
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -46,10 +48,23 @@ public class MainWindow extends JFrame {
 
     private JPanel makeControls() {
         JPanel controls = new JPanel(new FlowLayout());
+
+        final JLabel itemIdLabel = new JLabel("Item:");
+        final JLabel stopPriceLabel = new JLabel("Stop Price:");
+
         final JTextField itemIdField = new JTextField();
-        itemIdField.setColumns(25);
+        itemIdField.setColumns(10);
         itemIdField.setName(NEW_ITEM_ID_NAME);
+        itemIdLabel.setLabelFor(itemIdField);
+        controls.add(itemIdLabel);
         controls.add(itemIdField);
+
+        final JFormattedTextField stopPriceField = new JFormattedTextField(NumberFormat.INTEGER_FIELD);
+        stopPriceField.setColumns(7);
+        stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
+        stopPriceLabel.setLabelFor(stopPriceField);
+        controls.add(stopPriceLabel);
+        controls.add(stopPriceField);
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
