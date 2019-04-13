@@ -1,6 +1,5 @@
 package test.auctionsniper;
 
-import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.SniperPortfolio.PortfolioListener;

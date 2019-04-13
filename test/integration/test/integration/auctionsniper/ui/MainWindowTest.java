@@ -16,17 +16,17 @@ public class MainWindowTest {
 
     @Test public void
     makesUserRequestWhenJoinButtonClicked() {
-        final ValueMatcherProbe<String> buttonProbe =
-                new ValueMatcherProbe<String>(equalTo("an item-id"), "join request");
+        final ValueMatcherProbe<Item> itemProbe =
+                new ValueMatcherProbe<Item>(equalTo(new Item("an item-id", 789)), "item request");
 
         mainWindow.addUserRequestListener(
                 new UserRequestListener() {
                     public void joinAuction(Item item) {
-                        buttonProbe.setReceivedValue(item.identifier);
+                        itemProbe.setReceivedValue(item);
                     }
                 });
 
-        driver.startBiddingFor("an item-id", Integer.MAX_VALUE);
-        driver.check(buttonProbe);
+        driver.startBiddingFor("an item-id", 789);
+        driver.check(itemProbe);
     }
 }
