@@ -1,5 +1,6 @@
 package test.integration.auctionsniper.ui;
 
+import auctionsniper.Item;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.ui.MainWindow;
@@ -20,8 +21,8 @@ public class MainWindowTest {
 
         mainWindow.addUserRequestListener(
                 new UserRequestListener() {
-                    public void joinAuction(String itemId) {
-                        buttonProbe.setReceivedValue(itemId);
+                    public void joinAuction(Item item) {
+                        buttonProbe.setReceivedValue(item.identifier);
                     }
                 });
 
