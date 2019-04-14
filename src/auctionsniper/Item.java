@@ -13,6 +13,10 @@ public class Item {
         this.stopPrice = stopPrice;
     }
 
+    public boolean allowsBid(int bid) {
+        return bid <= stopPrice;
+    }
+
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
@@ -27,4 +31,6 @@ public class Item {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
+
 }
