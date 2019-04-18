@@ -81,7 +81,7 @@ public class ApplicationRunner {
 
     public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
     }
-    
+
     public void stop() {
         if (driver != null) {
             driver.dispose();

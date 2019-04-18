@@ -55,9 +55,9 @@ public class XMPPAuctionHouseTest {
     private AuctionEventListener auctionClosedListener(final CountDownLatch auctionWasClosed) {
         return new AuctionEventListener() {
             public void auctionClosed() { auctionWasClosed.countDown(); }
-            public void currentPrice(int price, int increment, PriceSource priceSource) {
-                //
-            }
+            public void currentPrice(int price, int increment, PriceSource priceSource) { }
+            public void auctionFailed() { }
+
         };
     }
 }
