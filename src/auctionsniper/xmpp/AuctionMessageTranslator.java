@@ -44,20 +44,20 @@ public class AuctionMessageTranslator implements MessageListener {
     }
 
     private static class AuctionEvent {
-        private final Map<String, String> values = new HashMap<>();
+        private final Map<String, String> fields = new HashMap<>();
         public String type() throws MissingValueException { return get("Event"); }
-        public int currentPrice() throws MissingValueException { return getInt("CurrentPrice"); }
-        public int increment() throws MissingValueException { return getInt("Increment"); }
+        public int currentPrice() throws Exception { return getInt("CurrentPrice"); }
+        public int increment() throws Exception { return getInt("Increment"); }
         public PriceSource isFrom(String sniperId) throws MissingValueException {
             return sniperId.equals(bidder()) ? FromSniper : FromOtherBidder;
         }
 
-        private int getInt(String fieldName) throws MissingValueException {
+        private int getInt(String fieldName) throws Exception {
             return Integer.parseInt(get(fieldName));
         }
 
         private String get(String fieldName) throws MissingValueException {
-            String value = values.get(fieldName);
+            final String value = fields.get(fieldName);
             if (null == value) {
                 throw new MissingValueException(fieldName);
             }
@@ -66,7 +66,7 @@ public class AuctionMessageTranslator implements MessageListener {
 
         private void addField(String field) {
             String[] pair = field.split(":");
-            values.put(pair[0].trim(), pair[1].trim());
+            fields.put(pair[0].trim(), pair[1].trim());
         }
 
         private String bidder() throws MissingValueException { return get("Bidder"); }

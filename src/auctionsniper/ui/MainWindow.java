@@ -4,7 +4,6 @@ import auctionsniper.Item;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.util.Announcer;
-import com.objogate.wl.swing.driver.JTextFieldDriver;
 
 import javax.swing.*;
 

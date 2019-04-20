@@ -22,7 +22,7 @@ public class SniperLauncherTest {
     addsNewSniperToCollectorAndThenJoinsAuction() {
         final Item item = new Item("item 123", Integer.MAX_VALUE);
         context.checking(new Expectations() {{
-            allowing(auctionHouse).auctionFor(item.identifier); will(returnValue(auction));
+            allowing(auctionHouse).auctionFor(item); will(returnValue(auction));
             oneOf(auction).addAuctionEventListener(with(sniperForItem(item.identifier)));
                                         when(auctionState.is("not joined"));
             oneOf(sniperCollector).addSniper(with(sniperForItem(item.identifier)));
