@@ -13,7 +13,6 @@ import static auctionsniper.ui.MainWindow.NEW_ITEM_STOP_PRICE_NAME;
 import static com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
 import static java.lang.String.valueOf;
-import static org.hamcrest.Matchers.equalTo;
 
 public class AuctionSniperDriver extends JFrameDriver {
     public AuctionSniperDriver(int timeoutMillis) {
@@ -23,11 +22,7 @@ public class AuctionSniperDriver extends JFrameDriver {
                         showingOnScreen()),
                         new AWTEventQueueProber(timeoutMillis, 100));
     }
-
-    public void showsSniperStatus(String statusText) {
-        new JTableDriver(this).hasCell(withLabelText(equalTo(statusText)));
-    }
-
+    
     public void showsSniperStatus(String itemId, int lastPrice, int lastBid, String statusText) {
         JTableDriver table = new JTableDriver(this);
         table.hasRow(
@@ -42,7 +37,7 @@ public class AuctionSniperDriver extends JFrameDriver {
                 withLabelText("Last Bid"), withLabelText("State")));
     }
 
-    public void startBiddingFor(String itemId, int stopPrice) {
+    public void startBiddingWithStopPrice(String itemId, int stopPrice) {
         textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
         textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
         bidButton().click();
