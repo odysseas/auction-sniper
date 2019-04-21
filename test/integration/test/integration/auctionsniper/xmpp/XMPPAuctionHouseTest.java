@@ -3,6 +3,7 @@ package test.integration.auctionsniper.xmpp;
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.Item;
+import auctionsniper.xmpp.XMPPAuctionException;
 import auctionsniper.xmpp.XMPPAuctionHouse;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
@@ -20,7 +21,7 @@ public class XMPPAuctionHouseTest {
     private final FakeAuctionServer auctionServer = new FakeAuctionServer("item-54321");
     private XMPPAuctionHouse auctionHouse;
 
-    @Before public void openConnection() throws XMPPException {
+    @Before public void openConnection() throws XMPPAuctionException {
         auctionHouse =
                 XMPPAuctionHouse.connect(
                         FakeAuctionServer.XMPP_HOSTNAME,
